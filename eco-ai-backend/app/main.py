@@ -81,14 +81,22 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Configure CORS
+# Configure CORS - FIXED FOR MOBILE DEPLOYMENT
+# Define the exact origins that are allowed to access your API
+origins = [
+    "https://eco-ai-frontend.onrender.com",  # Your deployed frontend on Render
+    # Add more origins if needed (e.g., custom domain, local development)
+    # "http://localhost:3000",  # For local testing on your computer
+    # "https://your-custom-domain.com",  # If you add a custom domain later
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins - USE ONLY IN DEVELOPMENT!
+    allow_origins=origins,  # Use the explicit list instead of "*"
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"],
+    allow_methods=["*"],     # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],     # Allow all headers
+    expose_headers=["*"],    # Expose all headers to the frontend
 )
 
 # Mount static files for uploaded images
